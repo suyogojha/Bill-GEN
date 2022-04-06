@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        h1{
+            text-align: right;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js" ></script>
+</head>
+<body>
+    <h2>Yara Da Dhaba <a href="task4.html">Download This Code</a></h2>
+<div id="whatToPrint" class="container-fluid">
+    <div class="container">
+        <div class="part1">
+            <fieldset>
+                <legend>Personal Information</legend>
+                Full Name: <input type="text" id="name"> <br/>
+
+                Your Email: <input type="text" id="email">
+            </fieldset>
+        </div>
+
+
+        <div class="part2">
+            <fieldset>
+                <legend>Your Orders</legend>
+                Smosa (Rs. 10): <input type="text" id="smosa"> <br/>
+                Kachori (Rs. 12): <input type="text" id="kachori"><br/>
+                Vadapav (Rs. 60): <input type="text" id="vadapav"><br/>
+                Maggi (Rs. 50): <input type="text" id="maggi"><br/>
+            </fieldset>
+        </div>
+        
+    </div>
+
+    <div class="container">
+        <fieldset>
+            <legend>Your Bill</legend>
+            <h3>Your Name:<span id="name2"></span></h3>
+            <h3>Email: <span id="email2"></span></h3>
+            <table border="1" >
+                <thead>
+                    <tr><th>Menu</th><th>Price</th><th>Quantity</th><th>Amout</th></tr>
+                </thead>
+                <tbody id="bill">
+                    <!-- <tr><td>Smosa</td><td>Rs. 10</td><td>1</td><td>10x1 = 10</td></tr> -->
+                </tbody>
+
+                
+
+            </table>
+            </fieldset>
+            <h1>Total Amout: Rs. <span id="amount">0</span></h1>
+            
+    </div>
+</div>
+<a href="javascript:generatePDF()" id="downloadButton">Click to download</a>
+<script>
+var Smosa = 10, Kachori = 12, Vadapav = 60, Maggi = 50;
+var smosa_q=0, kachori_q=0, vadapav_q=0, maggi_q=0;
+var name = "", email="";
+var smosaBill="",kachoriBill="",vadapavBill="",maggiBill="";
+var total_amount=0;
+document.getElementById("name").addEventListener("keyup",function(){
+    // name = document.getElementById("name").value;
+    
+    document.getElementById("name2").innerHTML=this.value;
+});
+
+document.getElementById("email").addEventListener("keyup",function(){
+    // name = document.getElementById("name").value;
+    
+    document.getElementById("email2").innerHTML=this.value;
+});
+
+
+
+document.getElementById("smosa").addEventListener("keyup",function(){
+if(this.value==""||this.value==0){
+    smosaBill="";
+    smosa_q=0;
+    showBill();
+}else{
+    smosa_q=this.value;
+    smosaBill="<tr><td>Smosa</td><td>Rs. "+Smosa+"</td><td>"+smosa_q+"</td><td>"+Smosa+"x"+smosa_q+" = "+Smosa*smosa_q+"</td></tr>";
+    showBill();
+
+}
+});
+
+document.getElementById("kachori").addEventListener("keyup",function(){
+if(this.value==""||this.value==0){
+    kachoriBill="";
+    kachori_q=0;
+    showBill();
+
+}else{
+    kachori_q=this.value;
+    kachoriBill="<tr><td>Kachori</td><td>Rs. "+Kachori+"</td><td>"+kachori_q+"</td><td>"+Kachori+"x"+kachori_q+" = "+Kachori*kachori_q+"</td></tr>";
+    showBill();
+}
+});
+
+document.getElementById("vadapav").addEventListener("keyup",function(){
+if(this.value==""||this.value==0){
+    vadapavBill="";
+    vadapav_q=0;
+    showBill();
+
+}else{
+    vadapav_q=this.value;
+    vadapavBill="<tr><td>Vadapav</td><td>Rs. "+Vadapav+"</td><td>"+vadapav_q+"</td><td>"+Vadapav+"x"+vadapav_q+" = "+Vadapav*vadapav_q+"</td></tr>";
+    showBill();
+}
+});
+
+document.getElementById("maggi").addEventListener("keyup",function(){
+if(this.value==""||this.value==0){
+    maggiBill="";
+    maggi_q=0;
+    showBill();
+
+}else{
+    maggi_q=this.value;
+    maggiBill="<tr><td>Maggi</td><td>Rs. "+Maggi+"</td><td>"+maggi_q+"</td><td>"+Vadapav+"x"+maggi_q+" = "+Maggi*maggi_q+"</td></tr>";
+    showBill();
+}
+});
+
+
+function showBill(){
+    document.getElementById("bill").innerHTML=smosaBill+kachoriBill+vadapavBill+maggiBill; //table statement
+    document.getElementById("amount").innerHTML = Smosa*smosa_q+Kachori*kachori_q+Vadapav*vadapav_q+Maggi*maggi_q; // total amount
+}
+
+
+
+
+
+
+
+
+async function generatePDF() {
+    document.getElementById("downloadButton").innerHTML = "Currently downloading, please wait";
+
+    //Downloading
+    var downloading = document.getElementById("whatToPrint");
+    var doc = new jsPDF('l', 'pt');
+
+    await html2canvas(downloading, {
+        //allowTaint: true,
+        //useCORS: true,
+        width: 1000
+    }).then((canvas) => {
+        //Canvas (convert to PNG)
+        doc.addImage(canvas.toDataURL("image/png"), 'PNG', 5, 5, 500, 200);
+    })
+
+    doc.save("Document.pdf");
+
+    //End of downloading
+
+    document.getElementById("downloadButton").innerHTML = "Click to download";
+}
+</script>
+</body>
+</html>
