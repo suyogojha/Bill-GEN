@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Title</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         h1{
@@ -14,7 +14,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js" ></script>
 </head>
 <body>
-    <h2>Yara Da Dhaba <a href="task4.html">Download This Code</a></h2>
 <div id="whatToPrint" class="container-fluid">
     <div class="container">
         <div class="part1">
@@ -49,7 +48,6 @@
                     <tr><th>Menu</th><th>Price</th><th>Quantity</th><th>Amout</th></tr>
                 </thead>
                 <tbody id="bill">
-                    <!-- <tr><td>Smosa</td><td>Rs. 10</td><td>1</td><td>10x1 = 10</td></tr> -->
                 </tbody>
 
                 
@@ -68,14 +66,11 @@ var name = "", email="";
 var smosaBill="",kachoriBill="",vadapavBill="",maggiBill="";
 var total_amount=0;
 document.getElementById("name").addEventListener("keyup",function(){
-    // name = document.getElementById("name").value;
     
     document.getElementById("name2").innerHTML=this.value;
 });
 
 document.getElementById("email").addEventListener("keyup",function(){
-    // name = document.getElementById("name").value;
-    
     document.getElementById("email2").innerHTML=this.value;
 });
 
@@ -154,11 +149,8 @@ async function generatePDF() {
     var doc = new jsPDF('l', 'pt');
 
     await html2canvas(downloading, {
-        //allowTaint: true,
-        //useCORS: true,
         width: 1000
     }).then((canvas) => {
-        //Canvas (convert to PNG)
         doc.addImage(canvas.toDataURL("image/png"), 'PNG', 5, 5, 500, 200);
     })
 
